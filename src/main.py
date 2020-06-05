@@ -9,20 +9,22 @@ import matplotlib.pyplot as plt
 from keras.utils import plot_model
 import tensorflow as tf
 from tensorflow import keras
- 
 
-batch_size = 1 #mini_batch_size
-nb_epoch = 10 #大循环次数
-nb_classes=5
-input_shape=6
+batch_size = 2  # mini_batch_size
+nb_epoch = 20  # 大循环次数
+nb_classes = 5
+input_shape = 6
 
 
-X_train=np.loadtxt("G:\Desktop\DLModel\data\\train\\test.txt",dtype='float',delimiter='\t',usecols=(0,1,2,3,4,5))
-Y_train=np.loadtxt("G:\Desktop\DLModel\data\\train\\test.txt",dtype='float',delimiter='\t',usecols=(6,7,8,9,10))
+X_train = np.loadtxt("data/train/test.txt",
+                     dtype='float', delimiter='\t', usecols=(0, 1, 2, 3, 4, 5))
+Y_train = np.loadtxt("data/train/test.txt",
+                     dtype='float', delimiter='\t', usecols=(6, 7, 8, 9, 10))
 
-X_test=np.loadtxt("G:\Desktop\DLModel\data\\train\\test.txt",dtype='float',delimiter='\t',usecols=(0,1,2,3,4,5))
-Y_test=np.loadtxt("G:\Desktop\DLModel\data\\train\\test.txt",dtype='float',delimiter='\t',usecols=(6,7,8,9,10))
-
+X_test = np.loadtxt("data/train/test.txt",
+                    dtype='float', delimiter='\t', usecols=(0, 1, 2, 3, 4, 5))
+Y_test = np.loadtxt("data/train/test.txt",
+                    dtype='float', delimiter='\t', usecols=(6, 7, 8, 9, 10))
 
 
 """ X_train=np.random.random((1000,1000))
@@ -31,14 +33,14 @@ Y_train=np.random.randint(20,size=(1000,20))
 X_test=np.random.random((1000,1000))
 Y_test=np.random.randint(20,size=(1000,20)) """
 
-model = Sequential()#第一层<br>#Dense就是全连接层
-model.add(Dense(128, input_shape=(input_shape,))) #输入维度
-model.add(Activation('relu')) #激活函数
-model.add(Dense(128)) 
-model.add(Activation('relu')) #激活函数
+model = Sequential()  # 第一层<br>#Dense就是全连接层
+model.add(Dense(128, input_shape=(input_shape,)))  # 输入维度
+model.add(Activation('relu'))  # 激活函数
+model.add(Dense(128))
+model.add(Activation('relu'))  # 激活函数
 model.add(Dense(nb_classes))
 model.add(Activation('softmax'))
-#损失函数设置、优化函数，衡量标准
+# 损失函数设置、优化函数，衡量标准
 model.compile(loss=tf.keras.losses.MeanSquaredError(),
               optimizer='sgd',
               metrics=[tf.keras.metrics.RootMeanSquaredError()])
@@ -50,7 +52,6 @@ history = model.fit(X_train, Y_train,
 
 score = model.evaluate(X_test, Y_test,
                        batch_size=batch_size, verbose=1)
-
 
 
 print('Test score:', score[0])
