@@ -8,11 +8,11 @@ from keras.preprocessing.text import Tokenizer
 import matplotlib.pyplot as plt
 from keras.utils import plot_model
 import tensorflow as tf
-import keras as keras
+from tensorflow import keras
  
 
-batch_size = 32 #mini_batch_size
-nb_epoch = 5 #大循环次数
+batch_size = 1 #mini_batch_size
+nb_epoch = 10 #大循环次数
 nb_classes=5
 input_shape=6
 
@@ -23,7 +23,7 @@ Y_train=np.loadtxt("G:\Desktop\DLModel\data\\train\\test.txt",dtype='float',deli
 X_test=np.loadtxt("G:\Desktop\DLModel\data\\train\\test.txt",dtype='float',delimiter='\t',usecols=(0,1,2,3,4,5))
 Y_test=np.loadtxt("G:\Desktop\DLModel\data\\train\\test.txt",dtype='float',delimiter='\t',usecols=(6,7,8,9,10))
 
-print(X_train)
+
 
 """ X_train=np.random.random((1000,1000))
 Y_train=np.random.randint(20,size=(1000,20))
@@ -45,7 +45,7 @@ model.compile(loss=tf.keras.losses.MeanSquaredError(),
 
 history = model.fit(X_train, Y_train,
                     nb_epoch=nb_epoch, batch_size=batch_size,
-                    verbose=1, validation_split=0.1)
+                    verbose=1, validation_split=0.5)
 
 
 score = model.evaluate(X_test, Y_test,
