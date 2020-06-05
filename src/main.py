@@ -10,7 +10,7 @@ from keras.utils import plot_model
 import tensorflow as tf
 from tensorflow import keras
 
-batch_size = 2  # mini_batch_size
+batch_size = 10  # mini_batch_size
 nb_epoch = 20  # 大循环次数
 nb_classes = 5
 input_shape = 6
@@ -34,9 +34,9 @@ X_test=np.random.random((1000,1000))
 Y_test=np.random.randint(20,size=(1000,20)) """
 
 model = Sequential()  # 第一层<br>#Dense就是全连接层
-model.add(Dense(128, input_shape=(input_shape,)))  # 输入维度
+model.add(Dense(4096, input_shape=(input_shape,)))  # 输入维度
 model.add(Activation('relu'))  # 激活函数
-model.add(Dense(128))
+model.add(Dense(4096))
 model.add(Activation('relu'))  # 激活函数
 model.add(Dense(nb_classes))
 model.add(Activation('softmax'))
@@ -47,23 +47,24 @@ model.compile(loss=tf.keras.losses.MeanSquaredError(),
 
 history = model.fit(X_train, Y_train,
                     nb_epoch=nb_epoch, batch_size=batch_size,
-                    verbose=1, validation_split=0.5)
-
+                    verbose=1, validation_split=0.1)
 
 score = model.evaluate(X_test, Y_test,
                        batch_size=batch_size, verbose=1)
 
+print(history.history)
 
-print('Test score:', score[0])
-print('Test accuracy:', score[1])
+
+""" print('Test score:', score[0])
+print('Test accuracy:', score[1]) """
 
 # Plot training & validation accuracy values
-plt.plot(history.history['acc'])
-plt.plot(history.history['val_acc'])
-plt.title('Model accuracy')
-plt.ylabel('Accuracy')
+plt.plot(history.history['root_mean_squared_error'])
+plt.plot(history.history['val_root_mean_squared_error'])
+plt.title('Model RMSE')
+plt.ylabel('RMSE')
 plt.xlabel('Epoch')
-plt.legend(['Train', 'Test'], loc='upper left')
+plt.legend(['Train', 'Test'], loc='upper right')
 plt.show()
 
 # Plot training & validation loss values
